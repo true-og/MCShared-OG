@@ -100,7 +100,7 @@ public class FileManager {
 					// This workaround allows the comment to be saved when using Bukkit's YamlConfiguration class.
 					reworkedConfiguration.append(currentLine.replace(":", "_COLON_").replace("|", "_VERT_")
 							.replace("-", "_HYPHEN_").replace(" ", "_SPACE_")
-							.replaceFirst("#", plugin.getDescription().getName() + "_COMMENT_" + numOfComments + ": "));
+							.replaceFirst("#", plugin.getPluginMeta().getName() + "_COMMENT_" + numOfComments + ": "));
 					numOfComments++;
 				} else {
 					reworkedConfiguration.append(currentLine);
@@ -170,7 +170,7 @@ public class FileManager {
 		String[] lines = configString.split("\n");
 		StringBuilder config = new StringBuilder();
 		for (String line : lines) {
-			if (line.startsWith(plugin.getDescription().getName() + "_COMMENT")) {
+			if (line.startsWith(plugin.getPluginMeta().getName() + "_COMMENT")) {
 				// Rework comment line so it is converted back to a normal comment.
 				String comment = ("#" + line.substring(line.indexOf(": ") + 2)).replace("_COLON_", ":")
 						.replace("_HYPHEN_", "-").replace("_VERT_", "|").replace("_SPACE_", " ");

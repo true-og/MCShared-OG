@@ -2,10 +2,12 @@ package com.hm.mcshared.particle;
 
 import java.util.UUID;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.hm.mcshared.particle.ReflectionUtils.PackageType;
+
+import me.barny1094875.utilitiesog.UtilitiesOG;
+import net.kyori.adventure.text.TextComponent;
 
 /**
  * Class used to send fancy messages to the player; can be titles, hoverable chat messages or action bar messages. All
@@ -122,18 +124,18 @@ public final class FancyMessageSender {
 			// Prior to version 1.8.3.
 			parsedMainMessage = PackageType.MINECRAFT_SERVER.getClass(NESTED_CHAT_SERIALIZER)
 					.getMethod("a", String.class)
-					.invoke(null, ChatColor.translateAlternateColorCodes('&', titleJson));
+					.invoke(null, UtilitiesOG.trueogTextInterpreter(player, titleJson));
 			parsedSubMessage = PackageType.MINECRAFT_SERVER.getClass(NESTED_CHAT_SERIALIZER)
 					.getMethod("a", String.class)
-					.invoke(null, ChatColor.translateAlternateColorCodes('&', subtitleJson));
+					.invoke(null, UtilitiesOG.trueogTextInterpreter(player, subtitleJson));
 			titleClass = PackageType.MINECRAFT_SERVER.getClass(ENUM_TITLE_ACTION);
 		} else {
 			parsedMainMessage = PackageType.MINECRAFT_SERVER
 					.getClass(CLASS_CHAT_BASE_COMPONENT + "$" + NESTED_CHAT_SERIALIZER).getMethod("a", String.class)
-					.invoke(null, ChatColor.translateAlternateColorCodes('&', titleJson));
+					.invoke(null, UtilitiesOG.trueogTextInterpreter(player, titleJson));
 			parsedSubMessage = PackageType.MINECRAFT_SERVER
 					.getClass(CLASS_CHAT_BASE_COMPONENT + "$" + NESTED_CHAT_SERIALIZER).getMethod("a", String.class)
-					.invoke(null, ChatColor.translateAlternateColorCodes('&', subtitleJson));
+					.invoke(null, UtilitiesOG.trueogTextInterpreter(player, subtitleJson));
 			titleClass = PackageType.MINECRAFT_SERVER.getClass(CLASS_PACKET_PLAY_OUT_TITLE + "$" + ENUM_TITLE_ACTION);
 		}
 
@@ -157,8 +159,8 @@ public final class FancyMessageSender {
 
 		// Send the message packet through the PlayerConnection (title).
 		PackageType.MINECRAFT_SERVER.getClass(CLASS_PLAYER_CONNECTION)
-				.getMethod(METHOD_SEND_PACKET, PackageType.MINECRAFT_SERVER.getClass(CLASS_PACKET))
-				.invoke(playerConnection, packetPlayOutChatMainTitle);
+		.getMethod(METHOD_SEND_PACKET, PackageType.MINECRAFT_SERVER.getClass(CLASS_PACKET))
+		.invoke(playerConnection, packetPlayOutChatMainTitle);
 
 		Object packetPlayOutChatSubTitle = ReflectionUtils
 				.getConstructor(PackageType.MINECRAFT_SERVER.getClass(CLASS_PACKET_PLAY_OUT_TITLE),
@@ -168,8 +170,8 @@ public final class FancyMessageSender {
 
 		// Send the message packet through the PlayerConnection (subtitle).
 		PackageType.MINECRAFT_SERVER.getClass(CLASS_PLAYER_CONNECTION)
-				.getMethod(METHOD_SEND_PACKET, PackageType.MINECRAFT_SERVER.getClass(CLASS_PACKET))
-				.invoke(playerConnection, packetPlayOutChatSubTitle);
+		.getMethod(METHOD_SEND_PACKET, PackageType.MINECRAFT_SERVER.getClass(CLASS_PACKET))
+		.invoke(playerConnection, packetPlayOutChatSubTitle);
 	}
 
 	/**
@@ -193,12 +195,10 @@ public final class FancyMessageSender {
 		if (PackageType.getServerVersion().startsWith("1_8_R1")) {
 			// Prior to version 1.8.3.
 			parsedMessage = PackageType.MINECRAFT_SERVER.getClass(NESTED_CHAT_SERIALIZER).getMethod("a", String.class)
-					.invoke(null, ChatColor.translateAlternateColorCodes('&', json));
+					.invoke(null, UtilitiesOG.trueogTextInterpreter(player, json));
 		} else {
-			parsedMessage = Class
-					.forName(PackageType.MINECRAFT_SERVER + "." + CLASS_CHAT_BASE_COMPONENT + "$" + NESTED_CHAT_SERIALIZER)
-					.getMethod("a", String.class)
-					.invoke(null, ChatColor.translateAlternateColorCodes('&', json));
+			TextComponent textComponent = UtilitiesOG.trueogTextInterpreter(player, json);
+			parsedMessage = textComponent;
 		}
 
 		Object packetPlayOutChat;
@@ -237,8 +237,8 @@ public final class FancyMessageSender {
 
 		// Send the message packet through the PlayerConnection.
 		PackageType.MINECRAFT_SERVER.getClass(CLASS_PLAYER_CONNECTION)
-				.getMethod(METHOD_SEND_PACKET, PackageType.MINECRAFT_SERVER.getClass(CLASS_PACKET))
-				.invoke(playerConnection, packetPlayOutChat);
+		.getMethod(METHOD_SEND_PACKET, PackageType.MINECRAFT_SERVER.getClass(CLASS_PACKET))
+		.invoke(playerConnection, packetPlayOutChat);
 	}
 
 	private static String constructTextJson(String text) {

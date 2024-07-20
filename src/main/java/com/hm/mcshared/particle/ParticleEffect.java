@@ -624,7 +624,7 @@ public enum ParticleEffect {
 			throw new IllegalArgumentException("There is no water at the center location");
 		}
 		new ParticlePacket(this, offsetX, offsetY, offsetZ, speed, amount, isLongDistance(center, players), null)
-				.sendTo(center, players);
+		.sendTo(center, players);
 	}
 
 	/**
@@ -864,7 +864,7 @@ public enum ParticleEffect {
 			throw new ParticleDataException("The particle data type is incorrect");
 		}
 		new ParticlePacket(this, offsetX, offsetY, offsetZ, speed, amount, isLongDistance(center, players), data)
-				.sendTo(center, players);
+		.sendTo(center, players);
 	}
 
 	/**

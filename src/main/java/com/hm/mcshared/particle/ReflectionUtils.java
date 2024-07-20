@@ -90,7 +90,7 @@ public final class ReflectionUtils {
 	 * @throws NoSuchMethodException If the desired constructor with the specified arguments cannot be found
 	 */
 	public static Object instantiateObject(Class<?> clazz, Object... arguments) throws InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+	IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
 
 		return getConstructor(clazz, DataType.getPrimitive(arguments)).newInstance(arguments);
 	}
@@ -233,7 +233,7 @@ public final class ReflectionUtils {
 	 */
 	public static Object invokeMethod(Object instance, String className, PackageType packageType, String methodName,
 			Object... arguments) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-			NoSuchMethodException, ClassNotFoundException {
+	NoSuchMethodException, ClassNotFoundException {
 
 		return invokeMethod(instance, packageType.getClass(className), methodName, arguments);
 	}
@@ -313,7 +313,7 @@ public final class ReflectionUtils {
 	 */
 	public static Object getValue(Object instance, String className, PackageType packageType, boolean declared,
 			String fieldName) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
-			SecurityException, ClassNotFoundException {
+	SecurityException, ClassNotFoundException {
 
 		return getValue(instance, packageType.getClass(className), declared, fieldName);
 	}
@@ -376,7 +376,7 @@ public final class ReflectionUtils {
 	 */
 	public static void setValue(Object instance, String className, PackageType packageType, boolean declared,
 			String fieldName, Object value) throws IllegalArgumentException, IllegalAccessException,
-			NoSuchFieldException, SecurityException, ClassNotFoundException {
+	NoSuchFieldException, SecurityException, ClassNotFoundException {
 
 		setValue(instance, packageType.getClass(className), declared, fieldName, value);
 	}

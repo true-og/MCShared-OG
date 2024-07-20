@@ -103,7 +103,7 @@ public class CommentedYamlConfiguration extends YamlConfiguration {
 		if (comment != null) {
 			// Insert comment as new value in the file; will be converted back to a comment when saved by the
 			// FileManager.
-			this.set(plugin.getDescription().getName() + "_COMMENT_" + numOfComments, comment.replace(":", "_COLON_")
+			this.set(plugin.getPluginMeta().getName() + "_COMMENT_" + numOfComments, comment.replace(":", "_COLON_")
 					.replace("|", "_VERT_").replace("-", "_HYPHEN_").replace(" ", "_SPACE_"));
 			numOfComments++;
 		}
@@ -120,7 +120,7 @@ public class CommentedYamlConfiguration extends YamlConfiguration {
 	public void set(String path, Object value, String... comments) {
 		for (String comment : comments) {
 			// Insert comment as new value in the file; will be converted back to a comment when saved.
-			this.set(plugin.getDescription().getName() + "_COMMENT_" + numOfComments, comment.replace(":", "_COLON_")
+			this.set(plugin.getPluginMeta().getName() + "_COMMENT_" + numOfComments, comment.replace(":", "_COLON_")
 					.replace("|", "_VERT_").replace("-", "_HYPHEN_").replace(" ", "_SPACE_"));
 			numOfComments++;
 		}
