@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 
 import com.hm.mcshared.particle.ReflectionUtils.PackageType;
 
-import me.barny1094875.utilitiesog.UtilitiesOG;
 import net.kyori.adventure.text.TextComponent;
+import net.trueog.utilitiesog.UtilitiesOG;
 
 /**
  * Class used to send fancy messages to the player; can be titles, hoverable chat messages or action bar messages. All
@@ -124,18 +124,18 @@ public final class FancyMessageSender {
 			// Prior to version 1.8.3.
 			parsedMainMessage = PackageType.MINECRAFT_SERVER.getClass(NESTED_CHAT_SERIALIZER)
 					.getMethod("a", String.class)
-					.invoke(null, UtilitiesOG.trueogTextInterpreter(player, titleJson));
+					.invoke(null, UtilitiesOG.trueogExpand(titleJson, player));
 			parsedSubMessage = PackageType.MINECRAFT_SERVER.getClass(NESTED_CHAT_SERIALIZER)
 					.getMethod("a", String.class)
-					.invoke(null, UtilitiesOG.trueogTextInterpreter(player, subtitleJson));
+					.invoke(null, UtilitiesOG.trueogExpand(subtitleJson, player));
 			titleClass = PackageType.MINECRAFT_SERVER.getClass(ENUM_TITLE_ACTION);
 		} else {
 			parsedMainMessage = PackageType.MINECRAFT_SERVER
 					.getClass(CLASS_CHAT_BASE_COMPONENT + "$" + NESTED_CHAT_SERIALIZER).getMethod("a", String.class)
-					.invoke(null, UtilitiesOG.trueogTextInterpreter(player, titleJson));
+					.invoke(null, UtilitiesOG.trueogExpand(titleJson, player));
 			parsedSubMessage = PackageType.MINECRAFT_SERVER
 					.getClass(CLASS_CHAT_BASE_COMPONENT + "$" + NESTED_CHAT_SERIALIZER).getMethod("a", String.class)
-					.invoke(null, UtilitiesOG.trueogTextInterpreter(player, subtitleJson));
+					.invoke(null, UtilitiesOG.trueogExpand(subtitleJson, player));
 			titleClass = PackageType.MINECRAFT_SERVER.getClass(CLASS_PACKET_PLAY_OUT_TITLE + "$" + ENUM_TITLE_ACTION);
 		}
 
@@ -195,9 +195,9 @@ public final class FancyMessageSender {
 		if (PackageType.getServerVersion().startsWith("1_8_R1")) {
 			// Prior to version 1.8.3.
 			parsedMessage = PackageType.MINECRAFT_SERVER.getClass(NESTED_CHAT_SERIALIZER).getMethod("a", String.class)
-					.invoke(null, UtilitiesOG.trueogTextInterpreter(player, json));
+					.invoke(null, UtilitiesOG.trueogExpand(json, player));
 		} else {
-			TextComponent textComponent = UtilitiesOG.trueogTextInterpreter(player, json);
+			TextComponent textComponent = UtilitiesOG.trueogExpand(json, player);
 			parsedMessage = textComponent;
 		}
 
@@ -257,4 +257,5 @@ public final class FancyMessageSender {
 				+ "\"hoverEvent\":{\"action\":\"show_text\",\"value\":[{\"text\":\""
 				+ hover.replace("\"", "\\\"") + "\",\"color\":\"" + color + "\"}]}}";
 	}
+
 }
